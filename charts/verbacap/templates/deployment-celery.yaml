@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "verbacap.fullname" . }}-celery
+  labels:
+    {{- include "verbacap.labels" . | nindent 4 }}-celery
+spec:
+  replicas: {{ .Values.replicaAppCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "verbacap.name" . }}-celery
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "verbacap.labels" . | nindent 8 }}
+        app.kubernetes.io/name: {{ include "verbacap.name" . }}-celery
+        app.kubernetes.io/instance: {{ .Release.Name }}
+	{{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "verbacap.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-celery
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:v{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["bash", "/entrypoint.bash", "celery"]
+          volumeMounts:
+            - name: data
+              mountPath: /persist
+          env:
+            - name: "DATABASE_URL"
+              value: "postgres://{{ .Values.externalPostgres.user }}:{{ .Values.externalPostgres.password }}@{{ .Values.externalPostgres.host }}/{{ .Values.externalPostgres.database }}"
+            - name: "DJANGO_SECRET_KEY"
+              value: "{{ .Values.appSecretKey }}"
+            - name: "DJANGO_DEBUG"
+              value: "{{ .Values.appDebug }}"
+            - name: "CELERY_BROKER_URL"
+              value: "{{ .Values.externalredisUrl }}"
+            - name: "PERSIST_AUDIO_ROOTDIR"
+              value: "/persist"
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- with .Values.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ ternary .Values.persistence.existVolume.volumeName "verbacap-data" .Values.persistence.useExistClaim }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
