@@ -101,4 +101,3 @@ externalredisUrl: "redis://redis-master:6379/0"
 
 appSecretKey: "ChangeM4"
 appDebug: false
-
