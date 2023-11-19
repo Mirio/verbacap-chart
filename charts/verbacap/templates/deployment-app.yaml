@@ -54,6 +54,10 @@ spec:
               value: "{{ .Values.appDebug }}"
             - name: "CELERY_BROKER_URL"
               value: "{{ .Values.externalredisUrl }}"
+            - name: "DJANGO_ALLOWED_HOSTS"
+              value: "{{ .Values.appAllowedHosts }}"
+            - name: "DEBUG_INTERNALIPS"
+              value: "{{ .Values.appInternalIPS }}"
             - name: "PERSIST_AUDIO_ROOTDIR"
               value: "/persist"
           ports:
