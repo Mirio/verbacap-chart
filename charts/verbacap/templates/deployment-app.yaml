@@ -58,6 +58,8 @@ spec:
               value: "{{ .Values.appAllowedHosts }}"
             - name: "DEBUG_INTERNALIPS"
               value: "{{ .Values.appInternalIPS }}"
+            - name: "CSRF_TRUSTED_ORIGINS"
+              value: "{{ .Values.appCSRFTrustedOrigins }}"
             - name: "PERSIST_AUDIO_ROOTDIR"
               value: "/persist"
           ports:
