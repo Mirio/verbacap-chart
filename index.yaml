@@ -5,6 +5,20 @@ entries:
       artifacthub.io/category: integration-delivery
       artifacthub.io/license: MIT
     apiVersion: v2
+    appVersion: 1.2.8
+    created: "2023-11-19T22:29:28.914905843Z"
+    description: With VerbaCap is a Podcast Manager you will be able to download and
+      listen to all of your favorite podcasts in a centralized way.
+    digest: 4c09387c54cf5964ca678105f9839da5e720fea7159def4542104256d60aecfc
+    name: verbacap
+    type: application
+    urls:
+    - https://github.com/Mirio/verbacap-chart/releases/download/verbacap-1.0.2/verbacap-1.0.2.tgz
+    version: 1.0.2
+  - annotations:
+      artifacthub.io/category: integration-delivery
+      artifacthub.io/license: MIT
+    apiVersion: v2
     appVersion: 1.2.7
     created: "2023-11-19T08:55:21.244983825Z"
     description: With VerbaCap is a Podcast Manager you will be able to download and
@@ -26,4 +40,4 @@ entries:
     urls:
     - https://github.com/Mirio/verbacap-chart/releases/download/verbacap-1.0.0/verbacap-1.0.0.tgz
     version: 1.0.0
-generated: "2023-11-19T08:55:21.24500828Z"
+generated: "2023-11-19T22:29:28.914945537Z"
