@@ -23,6 +23,10 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
+      - name: Download Readme from App Repo
+        run: |
+          wget -q 'https://raw.githubusercontent.com/Mirio/verbacap/main/README.md' -O 'charts/verbacap/README.md'
+
       - name: Install Helm
         uses: azure/setup-helm@v3
 
