@@ -101,7 +101,7 @@ externalredisUrl: "redis://redis-master:6379/0"
 
 appSecretKey: "ChangeM4"
 # Allowed Host separated by comma
-appAllowedHosts: "verbacap.example,"
+appAllowedHosts: "localhost,127.0.0.1,verbacap.example"
 appDebug: false
 # If Debug is enabled, you can add your ip below to show the debug toolbar
 appInternalIPS: "127.0.0.1,"
